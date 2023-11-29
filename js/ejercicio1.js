@@ -1,13 +1,13 @@
 window.addEventListener("load", init);
 const animales = ["cerdo", "gato", "perro", "vaca", "zorro", "burro", "rana", "leon"];
-const movimiento = ["rota","grande", "pequenio", "baja", "def"];
+const movimiento = ["rota", "grande", "pequenio", "baja", "def"];
 
 
 function init() {
     var contenedor = document.createElement("div");
     contenedor.setAttribute("id", "animales");
     document.body.appendChild(contenedor);
-    for (let i = 0; i < animales.length; i++) {
+    while (animales.length !== 0) {
         contenedor.appendChild(generarDivs());
     }
     if (document.getElementById("audio") == null) {
@@ -27,36 +27,40 @@ function generarDivs() {
     let animal = document.createElement("div");
     let posicionAleatoria = (Math.floor(Math.random() * animales.length));
     animal.setAttribute("id", animales[posicionAleatoria]);
-    animal.setAttribute("class","animal");
+    animal.setAttribute("class", "animal");
     animal.style.backgroundImage = "url" + "(" + "/images/" + animales[posicionAleatoria] + ".png" + ")";
     animales.splice(posicionAleatoria, 1);
     return animal;
 }
 
 
-function cambiarSonidos(evento){
-    let audio = document.getElementById("audio");
-    let source = document.getElementById("source");
-    source.setAttribute("src", "/sounds/" + evento.target.id+ ".wav");
-    
-}
+// function cambiarSonidos(evento){
+//     let audio = document.getElementById("audio");
+//     let source = document.getElementById("source");
+//     source.setAttribute("src", "/sounds/" + evento.target.id+ ".wav");
 
-function mover(evento){
+// }
+
+function mover(evento) {
     var atributo = evento.target.getAttribute("class");
-    var array = atributo.split(" ",2);
-    if(array.length===1){
-        evento.target.setAttribute("class","animal "+movimiento[Math.floor(Math.random()*movimiento.length)]);
+    var array = atributo.split(" ", 2);
+    switch (array.length) {
+        case (1):
+            evento.target.setAttribute("class", "animal " + movimiento[Math.floor(Math.random() * movimiento.length)]);
+            break;
+        case (2):
+            evento.target.setAttribute("class", "animal");
+            var newAtributo = movimiento[Math.floor(Math.random() * movimiento.length)];
+            while (array[1] == newAtributo) {
+                newAtributo = movimiento[Math.floor(Math.random() * movimiento.length)];
+            }
+            evento.target.setAttribute("class", "animal " + movimiento[Math.floor(Math.random() * movimiento.length)]);
     }
-    else{
-        evento.target.setAttribute("class","animal");
-        evento.target.setAttribute("class","animal "+array[array.length-1]);
-    }
-
 }
 
 function manejadora(evento) {
     mover(evento);
-    cambiarSonidos(evento);
+    // cambiarSonidos(evento);
 }
 
 function addEventos() {
