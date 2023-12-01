@@ -54,12 +54,12 @@ function mover(evento) {
             evento.target.setAttribute("class", "animal " + movimiento[Math.floor(Math.random() * movimiento.length)]);
             break;
         case (2):
-            evento.target.setAttribute("class", "animal");
+            evento.target.className = "animal";
             var newAtributo = movimiento[Math.floor(Math.random() * movimiento.length)];
-            while (array[1] == newAtributo) {
+            while (array[1] === newAtributo) {
                 newAtributo = movimiento[Math.floor(Math.random() * movimiento.length)];
             }
-            evento.target.setAttribute("class", "animal " + movimiento[Math.floor(Math.random() * movimiento.length)]);
+            evento.target.className = "animal " + newAtributo;
     }
 }
 
