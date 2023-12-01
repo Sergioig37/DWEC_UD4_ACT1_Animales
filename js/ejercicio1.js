@@ -7,39 +7,44 @@ function init() {
     var contenedor = document.createElement("div");
     contenedor.setAttribute("id", "animales");
     document.body.appendChild(contenedor);
-    while (animales.length !== 0) {
-        contenedor.appendChild(generarDivs());
+
+    for (let i = 0; i < animales.length; i++) {
+        contenedor.appendChild(generarDivs(i));
     }
     if (document.getElementById("audio") == null) {
         let audio = document.createElement("audio");
-        let source = document.createElement("source");
-        audio.appendChild(source);
         audio.setAttribute("id", "audio");
         audio.setAttribute("preload", "auto");
+
+        let source = document.createElement("source");
         source.setAttribute("id", "source");
         source.setAttribute("type", "audio/wav");
-        document.body.appendChild(audio);
+        
+        audio.appendChild(source);
+        
+        contenedor.appendChild(audio);
     }
-    addEventos();
 }
 
-function generarDivs() {
+function generarDivs(posicion) {
     let animal = document.createElement("div");
-    let posicionAleatoria = (Math.floor(Math.random() * animales.length));
-    animal.setAttribute("id", animales[posicionAleatoria]);
-    animal.setAttribute("class", "animal");
-    animal.style.backgroundImage = "url" + "(" + "/images/" + animales[posicionAleatoria] + ".png" + ")";
-    animales.splice(posicionAleatoria, 1);
+    animal.setAttribute("id", animales[posicion]);
+    animal.classList.add( "animal");
+    animal.style.backgroundImage = "url" + "(" + "/images/" + animales[posicion] + ".png" + ")";
+     animal.addEventListener("click", manejadora);
     return animal;
 }
 
 
-// function cambiarSonidos(evento){
-//     let audio = document.getElementById("audio");
-//     let source = document.getElementById("source");
-//     source.setAttribute("src", "/sounds/" + evento.target.id+ ".wav");
+function cambiarSonidos(evento) {
+    let audio = document.getElementById("audio");
+    let source = document.getElementById("source");
+    source.setAttribute("src", "/sounds/" + evento.target.id + ".wav");
+    audio.load();
+    audio.play();
 
-// }
+
+}
 
 function mover(evento) {
     var atributo = evento.target.getAttribute("class");
@@ -60,13 +65,6 @@ function mover(evento) {
 
 function manejadora(evento) {
     mover(evento);
-    // cambiarSonidos(evento);
+    cambiarSonidos(evento);
 }
 
-function addEventos() {
-    var animals = document.querySelectorAll(".animal");
-    animals.forEach(element => {
-        element.addEventListener("click", manejadora);
-    });
-
-}
